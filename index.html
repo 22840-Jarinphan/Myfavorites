@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>อาหารไทยสุดโปรด - Thai Delicious Food</title>
     <style>
-        /* CSS กำหนดสไตล์การจัดวางและความสวยงาม */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,15 +13,16 @@
             scroll-behavior: smooth;
         }
 
+        /* พื้นหลังหลักใช้โทน ชมพูอ่อน/เหลืองอ่อน นุ่มนวล */
         body {
-            background-color: #f9f9f9;
-            color: #333;
+            background: linear-gradient(135deg, #fff5f5 0%, #fffde7 50%, #f0fff4 100%);
+            color: #2d3436;
             line-height: 1.6;
         }
 
-        /* 1. ส่วนหัวเว็บไซต์ (Header) */
+        /* 1. ส่วนหัวเว็บไซต์ (Header) - สีแดงสดใส ตัดด้วยขอบเหลือง */
         header {
-            background-color: #ff6b6b;
+            background-color: #ff4d4d;
             color: white;
             padding: 1rem 2rem;
             position: sticky;
@@ -30,34 +30,73 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-bottom: 5px solid #ffd32a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             z-index: 1000;
         }
 
         header h1 {
             font-size: 1.8rem;
+            text-shadow: 2px 2px 0px #00b894;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin-left: 1.5rem;
+            margin-left: 1rem;
             font-weight: bold;
-            transition: color 0.3s;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            background-color: #00b894; /* สีเขียว */
+            border: 2px solid #ffd32a; /* ขอบเหลือง */
+            transition: all 0.3s;
         }
 
         nav a:hover {
-            color: #ffe66d;
+            background-color: #ff7675; /* สีชมพู */
+            color: #fff;
+            transform: scale(1.05);
         }
 
         /* 2. ส่วนเนื้อหา (Content) */
         .container {
             max-width: 900px;
             margin: 2rem auto;
-            background: white;
+            background: #ffffff;
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            border-radius: 20px;
+            border: 5px solid #ff7675; /* กรอบสีชมพูหลัก */
+            box-shadow: 0 10px 20px rgba(255, 118, 117, 0.2);
+            position: relative;
+            overflow: hidden; /* ซ่อนอิโมจิที่ลอยล้นกรอบ */
+        }
+
+        /* อิโมจิอาหารลอยขยับไปมาด้าในกรอบ (Animation) */
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.35;
+            user-select: none;
+            pointer-events: none;
+            animation: float 6s infinite ease-in-out alternate;
+            z-index: 1;
+        }
+
+        .emoji-1 { top: 5%; left: 3%; animation-duration: 5s; }
+        .emoji-2 { top: 25%; right: 4%; animation-duration: 7s; }
+        .emoji-3 { top: 55%; left: 2%; animation-duration: 6s; }
+        .emoji-4 { bottom: 10%; right: 3%; animation-duration: 8s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(15deg); }
+            100% { transform: translateY(10px) rotate(-15deg); }
+        }
+
+        /* จัดเนื้อหาให้อยู่เหนืออิโมจิลอย */
+        .gallery, .content-section, .comment-section {
+            position: relative;
+            z-index: 2;
         }
 
         .gallery {
@@ -70,21 +109,31 @@
 
         .gallery img {
             width: 30%;
-            min-width: 250px;
+            min-width: 240px;
             height: 200px;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            border: 4px solid #ffd32a; /* ขอบสีเหลือง */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05) rotate(2deg);
         }
 
         .content-section {
+            background-color: #f0fff4; /* พื้นหลังสีเขียวอ่อน */
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 3px dashed #00b894; /* กรอบเส้นประสีเขียว */
             margin-bottom: 2rem;
         }
 
         .content-section h2 {
-            color: #ff6b6b;
+            color: #d63031; /* สีแดง */
             margin-bottom: 1rem;
-            border-bottom: 2px solid #ff6b6b;
+            border-bottom: 3px solid #ffd32a; /* ขอบล่างสีเหลือง */
             padding-bottom: 0.5rem;
         }
 
@@ -94,21 +143,28 @@
         }
 
         .content-section ul {
-            margin-left: 3rem;
+            margin-left: 2rem;
             margin-bottom: 1rem;
         }
 
-        /* 3. ระบบแสดงความคิดเห็น (Comment Section) */
+        .content-section li {
+            margin-bottom: 0.5rem;
+            color: #007958; /* สีเขียวเข้ม */
+            font-weight: 500;
+        }
+
+        /* 3. ระบบแสดงความคิดเห็น (Comment Section) - โทนชมพู/เหลือง */
         .comment-section {
-            background-color: #f1f1f1;
+            background-color: #fff0f3; /* พื้นหลังสีชมพูอ่อน */
             padding: 1.5rem;
-            border-radius: 8px;
+            border-radius: 15px;
+            border: 3px solid #ff7675; /* กรอบสีชมพู */
             margin-top: 2rem;
         }
 
         .comment-section h3 {
             margin-bottom: 1rem;
-            color: #333;
+            color: #d63031;
         }
 
         .comment-form input, 
@@ -116,24 +172,32 @@
             width: 100%;
             padding: 0.8rem;
             margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 2px solid #ffd32a; /* ขอบสีเหลือง */
+            border-radius: 10px;
             font-size: 1rem;
+            outline: none;
+        }
+
+        .comment-form input:focus, 
+        .comment-form textarea:focus {
+            border-color: #00b894; /* เปลี่ยนเป็นขอบเขียวตอนพิมพ์ */
         }
 
         .comment-form button {
-            background-color: #ff6b6b;
+            background-color: #00b894; /* ปุ่มสีเขียว */
             color: white;
-            border: none;
+            border: 2px solid #ffd32a; /* ขอบเหลือง */
             padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            font-size: 1rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
 
         .comment-form button:hover {
-            background-color: #ee5253;
+            background-color: #ff4d4d; /* ชี้แล้วเปลี่ยนเป็นสีแดง */
+            transform: translateY(-2px);
         }
 
         .comments-display {
@@ -143,37 +207,39 @@
         .comment-card {
             background: white;
             padding: 1rem;
-            border-radius: 6px;
+            border-radius: 10px;
             margin-bottom: 1rem;
-            border-left: 4px solid #ff6b6b;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 2px solid #ffd32a; /* ขอบสีเหลือง */
+            border-left: 8px solid #ff4d4d; /* แถบข้างสีแดง */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .comment-card .author {
             font-weight: bold;
-            color: #2d3436;
+            color: #d63031;
             margin-bottom: 0.3rem;
         }
 
-        /* 4. ส่วนท้ายเว็บไซต์ (Footer) */
+        /* 4. ส่วนท้ายเว็บไซต์ (Footer) - สีเขียว ตัดด้วยขอบเหลือง */
         footer {
-            background-color: #2d3436;
+            background-color: #00b894;
             color: white;
             text-align: center;
             padding: 1.5rem;
             margin-top: 2rem;
+            border-top: 5px solid #ffd32a;
         }
 
         footer p {
             margin: 0.3rem 0;
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. ส่วนหัวเว็บไซต์ (Header) -->
     <header>
-        <h1>ครัวไทยชวนชิม</h1>
+        <h1>🍲 ครัวไทยชวนชิม</h1>
         <nav>
             <a href="#about">เกี่ยวกับเรา</a>
             <a href="#menu">เมนูแนะนำ</a>
@@ -182,28 +248,27 @@
     </header>
 
     <div class="container">
-        <!-- รูปภาพ 3 รูป (อัปเดตลิงก์รูปภาพต้มยำกุ้งใหม่แล้ว) -->
+        <div class="floating-emoji emoji-1">🍜</div>
+        <div class="floating-emoji emoji-2">🌶️</div>
+        <div class="floating-emoji emoji-3">🍤</div>
+        <div class="floating-emoji emoji-4">🥗</div>
+
         <div class="gallery">
             <img src="https://static.thairath.co.th/media/B6FtNKtgSqRqbnNsbKFRA9Hw1ddaiN8vczDH5awGUi4JQ7XTjwF2YTlnGfAZTGUAcQDXv.jpg" alt="ต้มยำกุ้ง">
             <img src="https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/salads/%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B8%95%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2/%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B8%95%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2_preview.jpg" alt="ส้มตำไทย">
             <img src="https://www.milo.co.th/sites/default/files/inline-images/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%81%E0%B8%81%E0%B8%B0%E0%B8%9B%E0%B8%B4_1560x1040.jpg" alt="ข้าวคลุกกะปิ">
         </div>
 
-        <!-- 2. ส่วนเนื้อหา (Content) -->
         <section id="about" class="content-section">
-            <h2>เสน่ห์ของอาหารไทยที่คุณต้องหลงรัก</h2>
+            <h2>เสน่ห์ของอาหารไทยที่คุณต้องหลงรัก 😋</h2>
             
-            <!-- ย่อหน้าที่ 1 -->
             <p>อาหารไทยเป็นหนึ่งในมรดกทางวัฒนธรรมที่มีชื่อเสียงไปทั่วโลก ด้วยรสชาติที่เป็นเอกลักษณ์ซึ่งผสมผสานความเผ็ด เปรี้ยว เค็ม และหวานได้อย่างลงตัว การทำอาหารไทยไม่ได้เป็นเพียงแค่การประกอบอาหาร แต่เป็นศิลปะที่ต้องใช้ความละเมียดละไมในการเลือกสรรวัตถุดิบที่สดใหม่และการใช้มะนาว พริก และเครื่องเทศต่างๆ เพื่อสร้างกลิ่นหอมชวนรับประทาน</p>
             
-            <!-- ย่อหน้าที่ 2 -->
             <p>เมนูอาหารไทยยอดนิยมอย่าง ต้มยำกุ้ง ส้มตำไทย และข้าวคลุกกะปิ ถือเป็นตัวอย่างที่ชัดเจนของความหลากหลายทางรสชาติ ต้มยำกุ้งให้ความรู้สึกสดชื่นด้วยสมุนไพรอย่างตะไคร้ ใบมะกรูด และมะนาว ส่วนส้มตำไทยเป็นเมนูสตรีทฟู้ดยอดฮิตที่แซ่บครบรส และข้าวคลุกกะปิก็มีความหอมกลมกล่อม พร้อมเครื่องเคียงที่หลากหลาย ซึ่งทำให้ทุกคำที่รับประทานเต็มไปด้วยความอร่อย</p>
             
-            <!-- ย่อหน้าที่ 3 -->
             <p>นอกจากรสชาติที่อร่อยแล้ว อาหารไทยยังขึ้นชื่อในเรื่องของคุณประโยชน์ต่อสุขภาพ เนื่องจากมีส่วนผสมของสมุนไพรและผักสดหลากหลายชนิด ซึ่งมีสรรพคุณช่วยบำรุงร่างกายและช่วยในการย่อยอาหาร ทำให้การรับประทานอาหารไทยนอกจากจะได้รับความเพลิดเพลินแล้วยังได้สุขภาพที่ดีกลับมาอีกด้วย</p>
 
-            <h3 id="menu" style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: #555;">เอกลักษณ์เด่นของอาหารไทย:</h3>
-            <!-- รายการแบบ Bullet -->
+            <h3 id="menu" style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: #d63031;">✨ เอกลักษณ์เด่นของอาหารไทย:</h3>
             <ul>
                 <li>การใช้วัตถุดิบและสมุนไพรสดจากธรรมชาติ</li>
                 <li>รสชาติที่มีความกลมกล่อมและมิติที่หลากหลาย (เผ็ด เปรี้ยว เค็ม หวาน)</li>
@@ -212,30 +277,25 @@
             </ul>
         </section>
 
-        <!-- 3. ระบบแสดงความคิดเห็น (Comment Section) -->
         <section id="comments" class="comment-section">
-            <h3>แสดงความคิดเห็นเกี่ยวกับเมนูโปรดของคุณ</h3>
+            <h3>💬 แสดงความคิดเห็นเกี่ยวกับเมนูโปรดของคุณ</h3>
             <form id="commentForm" class="comment-form">
                 <input type="text" id="authorInput" placeholder="ชื่อของคุณ" required>
                 <textarea id="textInput" rows="3" placeholder="เขียนความคิดเห็นที่นี่..." required></textarea>
-                <button type="submit">ส่งความคิดเห็น</button>
+                <button type="submit">ส่งความคิดเห็น 🚀</button>
             </form>
 
-            <!-- พื้นที่แสดงความคิดเห็น -->
             <div id="commentsDisplay" class="comments-display">
-                <!-- ความคิดเห็นใหม่จะถูกแทรกข้างบนสุดตรงนี้ -->
-            </div>
+                </div>
         </section>
     </div>
 
-    <!-- 4. ส่วนท้ายเว็บไซต์ (Footer) -->
     <footer>
         <p><strong>ผู้จัดทำ:</strong> ด.ญ.จรินทร์พรรณ แก้วเคียงคำ</p>
         <p><strong>ชั้นเรียน:</strong> ม.3/2</p>
         <p><strong>ปีการศึกษา:</strong> 2569</p>
     </footer>
 
-    <!-- JavaScript สำหรับระบบความคิดเห็น -->
     <script>
         const commentForm = document.getElementById('commentForm');
         const authorInput = document.getElementById('authorInput');
@@ -243,31 +303,27 @@
         const commentsDisplay = document.getElementById('commentsDisplay');
 
         commentForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // ป้องกันไม่ให้หน้าเว็บรีเฟรช
+            event.preventDefault();
 
             const authorName = authorInput.value.trim();
             const commentText = textInput.value.trim();
 
             if (authorName && commentText) {
-                // สร้าง Element ความคิดเห็นใหม่
                 const newComment = document.createElement('div');
                 newComment.className = 'comment-card';
                 
                 newComment.innerHTML = `
-                    <div class="author">${escapeHtml(authorName)}</div>
+                    <div class="author">👤 ${escapeHtml(authorName)}</div>
                     <div class="text">${escapeHtml(commentText)}</div>
                 `;
 
-                // เพิ่มความคิดเห็นใหม่ไว้ที่ "บนสุด" (prepend)
                 commentsDisplay.prepend(newComment);
 
-                // ล้างค่าในช่องกรอก
                 authorInput.value = '';
                 textInput.value = '';
             }
         });
 
-        // ฟังก์ชันป้องกันการใส่ HTML/Script แปลกปลอม (Security)
         function escapeHtml(str) {
             return str.replace(/&/g, "&amp;")
                       .replace(/</g, "&lt;")
